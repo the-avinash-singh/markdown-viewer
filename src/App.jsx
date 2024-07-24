@@ -8,7 +8,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import remarkBreaks from 'remark-breaks';
 
-pdfMake.vfs = pdfFonts.pdfMake?.vfs;
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 function App() {
   const [markdown, setMarkdown] = useState('');
