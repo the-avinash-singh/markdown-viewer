@@ -1,0 +1,53 @@
+*{
+  box-sizing: border-box;
+}
+.intro-div{
+ margin: 1rem ;
+}
+
+.intro-div button{
+  margin-bottom: 0.6rem;
+  margin-right: 1rem;
+}
+.text{
+  font-size: xx-large;
+  font-weight: 900;
+  margin-bottom: 0.6rem;
+}
+.container {
+  display: flex;
+  height: 84dvh;
+  width: 100dvw;
+}
+.preview-pane{
+  overflow-y: auto;
+}
+
+.input-pane, .preview-pane {
+  border-top: 1px solid #ddd;
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.input-pane {
+  border-right: 1px solid #ddd;
+}
+
+textarea{
+  resize: none;
+  font-size: 16px;
+}
+
+@media screen and (max-width:650px) {
+  .container{
+    flex-direction: column-reverse;
+  }
+  .input-pane {
+    border-right: none;
+  }
+  .text{
+    font-size: x-large;
+    font-weight: 700;
+  }
+}
