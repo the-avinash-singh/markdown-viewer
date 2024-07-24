@@ -5,7 +5,7 @@ import { logToFirebase } from './components/firebase';
 import htmlToPdfmake from 'html-to-pdfmake';
 import './App.css';
 import pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 import remarkBreaks from 'remark-breaks';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
