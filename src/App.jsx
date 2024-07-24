@@ -1,14 +1,11 @@
 import React, { useRef, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { logToFirebase } from './components/firebase';
-import htmlToPdfmake from 'html-to-pdfmake';
 import './App.css';
-import pdfMake from 'pdfmake/build/pdfmake';
-// import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import ReactMarkdown from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
-
-// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { tomorrow as syntaxStyle } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 function App() {
   const [markdown, setMarkdown] = useState('');
@@ -35,7 +32,7 @@ function App() {
       try {
         document.execCommand('copy');
         console.log('Copied to clipboard');
-        logToFirebase(markdown);
+        logToFirebase(markdown.replace(/!\[.*?\]\(.*?\)/g, ''));
       } catch (err) {
         console.error('Failed to copy: ', err);
       }
@@ -46,27 +43,10 @@ function App() {
     }
   }
 
-
-function downloadAsPDF() {
-  const element = previewRef.current;
-  if (element) {
-    const html = element.innerHTML;
-    if (pdfMake && pdfMake.createPdf) {
-      const documentDefinition = {
-        content: htmlToPdfmake(html),
-      };
-      pdfMake.createPdf(documentDefinition).download('markdown-preview.pdf');
-    } else {
-      console.error('pdfMake is not properly initialized.');
-    }
-  }
-}
-
   return (
     <>
         <div className='intro-div'>
       <div className='text'>Welcome to Markdown Viewer!.md</div>
-        <button onClick={downloadAsPDF}>Download as PDF</button>
         <button onClick={copyToClipboard}>Copy to Clipboard</button>
         </div>
     <div className="container">
@@ -79,7 +59,23 @@ function downloadAsPDF() {
         />
       </div>
       <div className="preview-pane" ref={previewRef}>
-        <ReactMarkdown remarkPlugins={[remarkGfm,remarkBreaks]}>{markdown.replace(/!\[.*?\]\(.*?\)/g, '')}</ReactMarkdown>
+        <ReactMarkdown  remarkPlugins={[remarkBreaks, remarkGfm]}
+          components={{
+            code({ node, inline, className, children, ...props }) {
+              const match = /language-(\w+)/.exec(className || '');
+              return !inline && match ? (
+                <SyntaxHighlighter style={syntaxStyle} language={match[1]} PreTag="div" {...props}>
+                  {String(children).replace(/\n$/, '')}
+                </SyntaxHighlighter>
+              ) : (
+                <code className={className} {...props}>
+                  {children}
+                </code>
+              );
+            }
+          }}>
+            {markdown.replace(/!\[.*?\]\(.*?\)/g, '')}
+            </ReactMarkdown>
       </div>
     </div>
     </>
