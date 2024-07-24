@@ -4,8 +4,8 @@ import remarkGfm from 'remark-gfm';
 import { logToFirebase } from './components/firebase';
 import htmlToPdfmake from 'html-to-pdfmake';
 import './App.css';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import remarkBreaks from 'remark-breaks';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -51,10 +51,14 @@ function downloadAsPDF() {
   const element = previewRef.current;
   if (element) {
     const html = element.innerHTML;
-    const documentDefinition = {
-      content: htmlToPdfmake(html),
-    };
-    pdfMake.createPdf(documentDefinition).download('markdown-preview.pdf');
+    if (pdfMake && pdfMake.createPdf) {
+      const documentDefinition = {
+        content: htmlToPdfmake(html),
+      };
+      pdfMake.createPdf(documentDefinition).download('markdown-preview.pdf');
+    } else {
+      console.error('pdfMake is not properly initialized.');
+    }
   }
 }
 
