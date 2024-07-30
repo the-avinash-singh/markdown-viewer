@@ -2,12 +2,12 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCu5k0NZqLKskVdNCfDk_TsM8QmZ7YdJ2s",
-    authDomain: "markdown-2b9a0.firebaseapp.com",
-    projectId: "markdown-2b9a0",
-    storageBucket: "markdown-2b9a0.appspot.com",
-    messagingSenderId: "625973736375",
-    appId: "1:625973736375:web:9183f7d3f8118a67142e32",
+    apiKey: import.meta.env.VITE_API_KEY,
+    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+    appId:VITE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
