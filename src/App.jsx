@@ -14,21 +14,18 @@ function App() {
   function copyToClipboard() {
     const element = previewRef.current;
     if (element) {
-      // Create a temporary HTML element to hold the HTML content
       const tempElement = document.createElement('div');
       tempElement.innerHTML = element.innerHTML;
 
       tempElement.style.backgroundColor = 'white';
       document.body.appendChild(tempElement);
 
-      // Select the HTML content
       const range = document.createRange();
       range.selectNode(tempElement);
       const selection = window.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
 
-      // Copy the selected content to the clipboard
       try {
         document.execCommand('copy');
         console.log('Copied to clipboard');
@@ -37,7 +34,6 @@ function App() {
         console.error('Failed to copy: ', err);
       }
 
-      // Clean up
       selection.removeAllRanges();
       document.body.removeChild(tempElement);
     }
@@ -45,9 +41,11 @@ function App() {
 
   return (
     <>
+        <div className='logo'>devDeejay<span>.in</span></div>
         <div className='intro-div'>
       <div className='text'>Welcome to Markdown Viewer!.md</div>
-        <button onClick={copyToClipboard}>Copy to Clipboard</button>
+      <p>A handey markedown editor tool for everyone :)</p>
+        <button onClick={copyToClipboard} className={markdown?`visible`:"invisible"}>Copy to Clipboard</button>
         </div>
     <div className="container">
       <div className="input-pane">
